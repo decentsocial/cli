@@ -16,4 +16,12 @@ Then
 
 ```sh
 npm i -g decent-social-cli
+
+decent --help
+```
+
+Read with `less`:
+
+```sh
+decent --max 50 --reverse | less
 ```
