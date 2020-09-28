@@ -2,7 +2,7 @@
 
 Visit [decent.social](https://decent.social/)
 
-Create ~/.decent/usernames` with the Twitter accounts you want to follow
+Create `~/.decent/usernames` with the Twitter accounts you want to follow
 
 E.g.
 
