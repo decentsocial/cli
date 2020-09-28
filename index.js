@@ -51,7 +51,7 @@ async function main ({ username, max, reverse = true }) {
   reverse && allTweets.sort((a, b) => +a.date - +b.date)
 
   for (const tweet of allTweets) {
-    console.log(`\n\n\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}`)
+    console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
     process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
   }
 }
