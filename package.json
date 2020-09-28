@@ -1,0 +1,35 @@
+{
+  "name": "decent-social-cli",
+  "version": "0.0.0",
+  "main": "index.js",
+  "bin": {
+    "decent": "index.js"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^3.12.1"
+  },
+  "dependencies": {
+    "feedparser": "^2.2.10",
+    "kleur": "^4.1.2",
+    "node-fetch": "^2.6.1",
+    "ora": "^5.1.0",
+    "p-limit": "^3.0.2",
+    "p-retry": "^4.2.0",
+    "yargs": "^16.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decentsocial/cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/decentsocial/cli/issues"
+  },
+  "homepage": "https://github.com/decentsocial/cli#readme",
+  "description": ""
+}
