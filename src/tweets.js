@@ -4,13 +4,13 @@ const limit = require('p-limit')(20)
 const retry = require('p-retry')
 
 module.exports = {
-  multi,
-  getTweets
+  getTweets,
+  getTweetsForUser
 }
 
-async function multi (urls = [], spinner) {
-  const tweetsByUser = await Promise.all(urls.map((url) => limit(() => retry(() => {
-    return getTweets(url, spinner)
+async function getTweets (usernames = [], spinner) {
+  const tweetsByUser = await Promise.all(usernames.map((url) => limit(() => retry(() => {
+    return getTweetsForUser(url, spinner)
       .catch(err => {
         process.env.DEBUG && console.error(`an error occurred while fetching ${url}`, err.message)
         process.env.DEBUG && console.error(err)
@@ -20,7 +20,7 @@ async function multi (urls = [], spinner) {
   return tweetsByUser
     .reduce((acc, curr) => acc.concat(curr), [])
 }
-async function getTweets (username = '', spinner) {
+async function getTweetsForUser (username = '', spinner) {
   const url = username.startsWith('https') ? username : `https://nitter.decent.social/${username}/rss`
   spinner && (spinner.text = `loading ${url}`)
 

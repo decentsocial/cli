@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const { getTweets, multi } = require('./src/tweets')
+const { getTweets } = require('./src/tweets')
 const args = require('./src/args')(process.argv)
 
 const fs = require('fs')
 const fsp = require('fs').promises
 const ora = require('ora')
-const { bold, italic, bgWhite } = require('kleur')
+const { bold, italic } = require('kleur')
 
 if (require.main === module) {
   process.env.DEBUG && console.log(args)
@@ -36,9 +36,9 @@ async function main ({ username, max, reverse = true }) {
     const usernamesFileExists = fs.existsSync(`${process.env.HOME}/.decent/usernames`)
     const contents = urlsFileExists ? await fsp.readFile(`${process.env.HOME}/.decent/urls`, { encoding: 'utf8' }) : (usernamesFileExists ? await fsp.readFile(`${process.env.HOME}/.decent/usernames`, { encoding: 'utf8' }) : '')
     const urls = contents.split('\n').filter(Boolean)
-    allTweets = await multi(urls, spinner)
+    allTweets = await getTweets(urls, spinner)
   } else {
-    allTweets = await getTweets(username, spinner)
+    allTweets = await getTweets(username.split(',').map(s => s.trim()).filter(Boolean), spinner)
   }
   spinner.succeed('all done, enjoy your timeline')
   spinner.stop()

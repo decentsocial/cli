@@ -1,8 +1,8 @@
 const test = require('ava')
-const { getTweets, multi } = require('./tweets')
+const { getTweets, getTweetsForUser } = require('./tweets')
 
 test('gets user tweets', async t => {
-  const tweets = await getTweets('christian_fei')
+  const tweets = await getTweetsForUser('christian_fei')
   t.true(tweets instanceof Array)
   t.true(tweets.length > 10)
 
@@ -19,7 +19,7 @@ test('gets user tweets', async t => {
 })
 
 test('gets multiple users tweets', async t => {
-  const tweets = await multi(['elonmusk', 'lexfridman'])
+  const tweets = await getTweets(['elonmusk', 'lexfridman'])
   t.true(tweets instanceof Array)
   t.true(tweets.length > 20)
 
