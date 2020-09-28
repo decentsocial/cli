@@ -15,5 +15,5 @@ mkbhd
 Then
 
 ```sh
-npx decent
+npm i -g decent-social-cli
 ```
