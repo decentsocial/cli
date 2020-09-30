@@ -2,7 +2,7 @@
 
 Visit [decent.social](https://decent.social/)
 
-<video autoplay loop src="https://decent.social/img/decent.social.cli.mp4"></video>
+[👀 See a demo](https://decent.social/cli)
 
 Create `~/.decent/usernames` with the Twitter accounts you want to follow
 
