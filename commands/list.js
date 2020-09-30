@@ -32,7 +32,7 @@ exports.handler = async function (argv) {
     username = contents.split('\n').filter(Boolean).join(',')
   }
 
-  list({ username, max, reverse })
+  return list({ username, max, reverse })
     .then(() => {
       process.exit(0)
     })
@@ -63,4 +63,6 @@ async function list ({ username, max, reverse = true }) {
     console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
     process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
   }
+
+  return allTweets
 }
