@@ -8,15 +8,16 @@ exports.builder = {
     default: 'elonmusk,lexfridman,mkbhd'
   }
 }
-exports.handler = function (argv) {
+exports.handler = function (argv, { mkdirSync, existsSync, writeFileSync } = fs) {
   console.log('creating directory ~/.decent')
-  fs.mkdirSync('~/.decent', { recursive: true })
-  if (fs.existsSync(path.resolve(process.env.HOME, '.decent/usernames'))) {
+  if (existsSync(path.resolve(process.env.HOME, '.decent/usernames'))) {
     console.log('~/.decent/usernames already exists')
     console.log('feel free to edit this file and follow users you care about')
-    return
+    return false
   }
+  mkdirSync('~/.decent', { recursive: true })
   console.log('creating usernames ~/.decent/usernames')
-  fs.writeFileSync(path.resolve(process.env.HOME, '.decent/usernames'), argv.username.split(',').join('\n'), { encoding: 'utf-8' })
+  writeFileSync(path.resolve(process.env.HOME, '.decent/usernames'), argv.username.split(',').join('\n'), { encoding: 'utf-8' })
   console.log('successfully created ~/.decent/usernames\nfeel free to edit this file and follow users you care about')
+  return true
 }
