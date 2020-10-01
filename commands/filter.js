@@ -1,7 +1,6 @@
 const { getTweets } = require('../src/tweets')
+const getUsernames = require('../src/get-usernames')
 
-const fs = require('fs')
-const fsp = require('fs').promises
 const ora = require('ora')
 const { bold, italic } = require('kleur')
 
@@ -21,39 +20,30 @@ exports.builder = {
 exports.handler = async function (argv) {
   process.env.DEBUG && console.log(argv)
 
-  if (!argv.username) {
-    const usernamesFileExists = fs.existsSync(`${process.env.HOME}/.decent/usernames`)
-    const contents = usernamesFileExists ? await fsp.readFile(`${process.env.HOME}/.decent/usernames`, { encoding: 'utf8' }) : ''
-    argv.username = contents.split('\n').filter(Boolean).join(',')
-  }
   const spinner = ora('Loading..').start()
+  const usernames = argv.username ? [argv.username] : await getUsernames()
+  const term = argv.term
+  const max = argv.max
 
-  return filter(argv, spinner)
-    .then((tweets) => {
-      for (const tweet of tweets) {
-        console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
-        process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
-      }
-
-      process.exit(0)
-    })
-    .catch(err => {
-      console.error(err.message)
-      process.exit(1)
-    })
+  const tweets = await filter({ usernames, term, max }, spinner)
+  for (const tweet of tweets) {
+    console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
+    process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
+  }
 }
 
 exports.filter = filter
 
-async function filter ({ username, term, max = 50 }, spinner) {
-  if (!username) {
+async function filter ({ usernames = [], term, max = 50 }, spinner) {
+  if (!Array.isArray(usernames) || usernames.length === 0) {
+    spinner && spinner.stop()
     return Promise.reject(new Error('No usernames specified\nPlease provide `--username` or configure using `decent init`'))
   }
   if (!term) {
+    spinner && spinner.stop()
     return Promise.reject(new Error('No term specified'))
   }
 
-  const usernames = username.split(',').map(s => s.trim()).filter(Boolean)
   let tweets = await getTweets(usernames, spinner)
   spinner && spinner.succeed('all done, enjoy your timeline')
   spinner && spinner.stop()
