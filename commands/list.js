@@ -14,26 +14,24 @@ exports.builder = {
   },
   username: {
     default: ''
-  },
-  reverse: {
-    default: true
   }
 }
 exports.handler = async function (argv) {
   process.env.DEBUG && console.log(argv)
 
-  let username = argv.username
-  const max = argv.max || 50
-  const reverse = !argv.reverse
-
-  if (!username) {
+  if (!argv.username) {
     const usernamesFileExists = fs.existsSync(`${process.env.HOME}/.decent/usernames`)
     const contents = usernamesFileExists ? await fsp.readFile(`${process.env.HOME}/.decent/usernames`, { encoding: 'utf8' }) : ''
-    username = contents.split('\n').filter(Boolean).join(',')
+    argv.username = contents.split('\n').filter(Boolean).join(',')
   }
 
-  return list({ username, max, reverse })
-    .then(() => {
+  return list(argv)
+    .then((tweets) => {
+      for (const tweet of tweets) {
+        console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
+        process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
+      }
+
       process.exit(0)
     })
     .catch(err => {
@@ -42,7 +40,9 @@ exports.handler = async function (argv) {
     })
 }
 
-async function list ({ username, max, reverse = true }) {
+exports.list = list
+
+async function list ({ username, max = 50 }) {
   if (!username) {
     return Promise.reject(new Error('No usernames specified\nPlease provide `--username` or configure using `decent init`'))
   }
@@ -52,17 +52,9 @@ async function list ({ username, max, reverse = true }) {
   spinner.succeed('all done, enjoy your timeline')
   spinner.stop()
 
-  allTweets
-    .sort((a, b) => +b.date - +a.date)
+  allTweets.sort((a, b) => +b.date - +a.date)
 
   allTweets = allTweets.filter((_, i) => i < max)
-
-  reverse && allTweets.sort((a, b) => +a.date - +b.date)
-
-  for (const tweet of allTweets) {
-    console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
-    process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
-  }
 
   return allTweets
 }

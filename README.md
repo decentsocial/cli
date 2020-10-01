@@ -25,5 +25,5 @@ decent --help
 Read with `less`:
 
 ```sh
-decent --max 50 --reverse | less
+decent --max 50 | less
 ```
