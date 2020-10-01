@@ -31,14 +31,14 @@ async function getTweetsForUser (username = '', spinner) {
   const feedparser = new FeedParser()
 
   if (req.status !== 200) {
-    return Promise.reject(new Error('Bad status code'))
+    throw new retry.AbortError(req.statusText)
   } else {
     req.body.pipe(feedparser)
   }
 
   return new Promise((resolve, reject) => {
     const tweets = []
-    feedparser.on('err', reject)
+    feedparser.on('err', () => { throw new retry.AbortError('Error parsing feed') })
 
     feedparser.on('readable', function () {
       let item = this.read()
