@@ -1,4 +1,3 @@
-
 const { getTweets } = require('../src/tweets')
 
 const fs = require('fs')
@@ -6,11 +5,14 @@ const fsp = require('fs').promises
 const ora = require('ora')
 const { bold, italic } = require('kleur')
 
-exports.command = 'list'
-exports.desc = 'Show timeline'
+exports.command = 'filter'
+exports.desc = 'Filter tweets based on search term'
 exports.builder = {
   max: {
     default: 50
+  },
+  term: {
+    default: ''
   },
   username: {
     default: ''
@@ -26,7 +28,7 @@ exports.handler = async function (argv) {
   }
   const spinner = ora('Loading..').start()
 
-  return list(argv, spinner)
+  return filter(argv, spinner)
     .then((tweets) => {
       for (const tweet of tweets) {
         console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
@@ -41,11 +43,14 @@ exports.handler = async function (argv) {
     })
 }
 
-exports.list = list
+exports.filter = filter
 
-async function list ({ username, max = 50 }, spinner) {
+async function filter ({ username, term, max = 50 }, spinner) {
   if (!username) {
     return Promise.reject(new Error('No usernames specified\nPlease provide `--username` or configure using `decent init`'))
+  }
+  if (!term) {
+    return Promise.reject(new Error('No term specified'))
   }
 
   const usernames = username.split(',').map(s => s.trim()).filter(Boolean)
@@ -55,7 +60,7 @@ async function list ({ username, max = 50 }, spinner) {
 
   tweets.sort((a, b) => +b.date - +a.date)
 
-  tweets = tweets.filter((_, i) => i < max)
+  tweets = tweets.filter((t) => t.text.toLowerCase().includes(term)).filter((_, i) => i < max)
 
   return tweets
 }

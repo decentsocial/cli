@@ -27,3 +27,5 @@ Read with `less`:
 ```sh
 decent --max 50 | less
 ```
+
+for more information, see `decent --help`
