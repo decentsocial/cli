@@ -14,7 +14,7 @@ test('follow username', t => {
   t.true(fakeFS.readFileSyncCalled)
   t.true(fakeFS.writeFileSyncCalled)
 })
-test('does not follow twice username', t => {
+test('does not follow user twice', t => {
   const fakeFS = {
     existsSync: () => { fakeFS.existsSyncCalled = true; return true },
     readFileSync: () => { fakeFS.readFileSyncCalled = true; return 'lexfridman\n' },
