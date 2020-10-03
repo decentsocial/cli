@@ -9,17 +9,20 @@ exports.builder = {
   }
 }
 exports.handler = function (argv, { existsSync, readFileSync, writeFileSync } = fs) {
-  console.log('following user ', argv.username)
   const usernamesPath = path.resolve(process.env.HOME, '.decent/usernames')
   if (existsSync(usernamesPath)) {
-    let content = readFileSync(usernamesPath, {encoding: 'utf-8'}) || ''
+    let content = readFileSync(usernamesPath, { encoding: 'utf-8' }) || ''
     if (!content.includes(argv.username)) {
-      content = content.split('\n').filter(Boolean).join('\n')
-      writeFileSync(usernamesPath, content + '\n' + argv.username + '\n')
-      return true
+      content = content.split('\n').filter(Boolean).join('\n') + '\n' + argv.username + '\n'
+      writeFileSync(usernamesPath, content)
+      console.log('following user ', argv.username)
+      return content
     }
+    console.log('already following user ', argv.username)
     return false
   }
-  writeFileSync(usernamesPath, argv.username)
-  return true
+  const content = argv.username + '\n'
+  writeFileSync(usernamesPath, content)
+  console.log('following user ', argv.username)
+  return content
 }
