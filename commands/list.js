@@ -13,6 +13,12 @@ exports.builder = {
   },
   username: {
     default: ''
+  },
+  retweets: {
+    default: true
+  },
+  replies: {
+    default: true
   }
 }
 exports.handler = async function (argv) {
@@ -22,8 +28,12 @@ exports.handler = async function (argv) {
   const usernames = argv.username ? [argv.username] : await getUsernames()
 
   const max = argv.max
-  const tweets = await list({ usernames, max }, spinner)
+  const retweets = argv.retweets
+  const replies = argv.replies
+  const tweets = await list({ usernames, max, retweets, replies }, spinner)
   for (const tweet of tweets) {
+    if (!retweets && tweet.retweet) continue
+    if (!replies && tweet.reply) continue
     console.log(`\n${bold(tweet.author)} - ${italic(tweet.date.toISOString())} - ${tweet.link}\n\n${tweet.text}\n\n`)
     process.env.DEBUG && console.log('-- tweet', JSON.stringify(tweet, null, 2))
   }

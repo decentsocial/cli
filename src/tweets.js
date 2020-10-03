@@ -54,7 +54,9 @@ async function getTweetsForUser (username = '', spinner) {
           text: item.title,
           html: item.description,
           date: new Date(item.date),
-          link: item.link.replace('/nitter.net/', '/nitter.decent.social/')
+          link: item.link.replace('/nitter.net/', '/nitter.decent.social/'),
+          retweet: item.title.startsWith('RT by'),
+          reply: item.title.startsWith('R to')
         }
         tweets.push(tweet)
         item = this.read()
