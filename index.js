@@ -3,7 +3,7 @@
 require('yargs')
   .version()
   .usage('Usage: decent <command> [options]')
-  .command('init', 'Init ~/.decent/usernames', require('./commands/init'))
+  .command('init <username>', 'Init ~/.decent/usernames', require('./commands/init'))
   .example('decent init', 'Initialize ~/.decent/usernames')
   .command(['list', '$0'], 'List timeline', require('./commands/list'))
   .command(['list <username>'], 'List the timeline of a user', require('./commands/list'))

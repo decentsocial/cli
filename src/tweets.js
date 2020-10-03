@@ -1,6 +1,6 @@
 const FeedParser = require('feedparser')
 const fetch = require('node-fetch')
-const limit = require('p-limit')(10)
+const limit = require('p-limit')(20)
 const retry = require('p-retry')
 
 module.exports = {

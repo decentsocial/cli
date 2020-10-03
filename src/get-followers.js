@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 
-module.exports = async function getFollowers (username = '') {
+module.exports = async function getFollowers (username = '', max = 100) {
   const templateUrl = `https://mobile.twitter.com/${username}/following`
   let cursor = ''
   const usernames = []
@@ -22,6 +22,9 @@ module.exports = async function getFollowers (username = '') {
       process.env.DEBUG && console.log('found users +', users.length)
       usernames.push(...users)
     }
+    if (usernames.length > max) {
+      usernames.length = max
+    }
 
     const matches = text.match(/cursor=([0-9]+)/)
     if (matches) {
@@ -32,5 +35,4 @@ module.exports = async function getFollowers (username = '') {
       return usernames
     }
   } while (true)
-  return usernames
 }
