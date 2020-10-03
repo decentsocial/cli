@@ -5,7 +5,7 @@ const getUsernames = require('../src/get-usernames')
 const ora = require('ora')
 const { bold, italic } = require('kleur')
 
-exports.command = 'list'
+exports.command = 'list <username>'
 exports.desc = 'Show timeline'
 exports.builder = {
   max: {
@@ -23,6 +23,7 @@ exports.builder = {
 }
 exports.handler = async function (argv) {
   process.env.DEBUG && console.log(argv)
+  console.log('argv.username', argv.username)
 
   const spinner = ora('Loading..').start()
   const usernames = argv.username ? [argv.username] : await getUsernames()
