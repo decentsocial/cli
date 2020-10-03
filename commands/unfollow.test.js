@@ -1,24 +1,23 @@
 const test = require('ava')
-const { handler } = require('./follow')
+const { handler } = require('./unfollow')
 
-test('follow username', t => {
+test('unfollow username', t => {
   const fakeFS = {
     existsSync: () => { fakeFS.existsSyncCalled = true; return true },
-    readFileSync: () => { fakeFS.readFileSyncCalled = true; return '' },
+    readFileSync: () => { fakeFS.readFileSyncCalled = true; return '\nlexfridman' },
     writeFileSync: () => (fakeFS.writeFileSyncCalled = true)
   }
 
   const result = handler({ username: 'lexfridman' }, fakeFS)
-  t.truthy(result)
-  t.is(result, '\nlexfridman\n')
+  t.is(result, '')
   t.true(fakeFS.existsSyncCalled)
   t.true(fakeFS.readFileSyncCalled)
   t.true(fakeFS.writeFileSyncCalled)
 })
-test('does not follow user twice', t => {
+test('does not unfollow user twice', t => {
   const fakeFS = {
     existsSync: () => { fakeFS.existsSyncCalled = true; return true },
-    readFileSync: () => { fakeFS.readFileSyncCalled = true; return 'lexfridman\n' },
+    readFileSync: () => { fakeFS.readFileSyncCalled = true; return '' },
     writeFileSync: () => (fakeFS.writeFileSyncCalled = true)
   }
 
