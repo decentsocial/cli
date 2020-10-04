@@ -1,5 +1,9 @@
 > Decent is an ad-free, privacy-first Twitter reading experience
 
+Read your Twitter timeline in the terminal, using Nitter RSS feeds!
+
+---
+
 Visit [decent.social](https://decent.social/)
 
 [👀 See a demo](https://decent.social/cli/)
