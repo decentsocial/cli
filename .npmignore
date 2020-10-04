@@ -3,3 +3,4 @@ usernames.example
 example.json
 README.md
 *.test.js
+.github/*
