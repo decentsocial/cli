@@ -2,6 +2,8 @@
 
 Read your Twitter timeline in the terminal, using Nitter RSS feeds!
 
+Public Nitter instance is available at [nitter.decent.social](https://nitter.decent.social)
+
 ---
 
 Visit [decent.social](https://decent.social/)
