@@ -33,25 +33,36 @@ for more information, see `decent --help`
 # some examples
 
 ```sh
-decent init', 'Initialize ~/.decent/usernames'
+# Initialize ~/.decent/usernames
+decent init
 
-decent list', 'List your timeline based on ~/.decent/usernames'
+# List your timeline based on ~/.decent/usernames
+decent list
 
-decent list lexfridman', 'List the timeline of the user "lexfridman"'
+# List the timeline of the user "lexfridman"
+decent list lexfridman
 
-decent list --max 100', 'Show max 100 tweets'
+# Show max 100 tweets
+decent list --max 100
 
-decent list --no-retweets --max 100', 'Show max 100 tweets without retweets'
+# Show max 100 tweets without retweets
+decent list --no-retweets --max 100
 
-decent list --no-replies --max 100', 'Show max 100 tweets without replies'
+# Show max 100 tweets without replies
+decent list --no-replies --max 100
 
-decent list --no-replies --no-retweets --max 100', 'Show max 100 tweets without replies without retweets'
+# Show max 100 tweets without replies without retweets
+decent list --no-replies --no-retweets --max 100
 
-decent filter erlang', 'Filter tweets containing term "erlang"'
+# Filter tweets containing term "erlang"
+decent filter erlang
 
-decent follow lexfridman', 'Follow user "lexfridman"'
+# Follow user "lexfridman"
+decent follow lexfridman
 
-decent unfollow lexfridman', 'unfollow user "lexfridman"'
+# unfollow user "lexfridman"
+decent unfollow lexfridman
 
-decent followers lexfridman', 'Followers of user "lexfridman"'
+# Followers of user "lexfridman"
+decent followers lexfridman
 ```
