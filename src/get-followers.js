@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 
 module.exports = async function getFollowers (username = '', max = 100) {
+  // code adapted from https://gist.github.com/zedeus/555f9709c1ad744b442bf9a6e9856aaf
   const templateUrl = `https://mobile.twitter.com/${username}/following`
   let cursor = ''
   const usernames = []
