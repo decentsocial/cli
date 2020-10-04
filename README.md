@@ -4,6 +4,12 @@ Visit [decent.social](https://decent.social/)
 
 [👀 See a demo](https://decent.social/cli/)
 
+![github actions status](https://github.com/decentsocial/cli/workflows/decent-social-cli/badge.svg)
+
+![license](https://img.shields.io/npm/l/decent-social-cli)
+
+[![npm version](https://badge.fury.io/js/decent-social-cli.svg)](https://badge.fury.io/js/decent-social-cli)
+
 # installation
 
 ```sh
