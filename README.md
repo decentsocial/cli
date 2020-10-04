@@ -4,33 +4,47 @@ Visit [decent.social](https://decent.social/)
 
 [👀 See a demo](https://decent.social/cli/)
 
-Create `~/.decent/usernames` with the Twitter accounts you want to follow
+# installation
 
-E.g.
+```sh
+npm i -g decent-social-cli
+
+# or, for one-off run
+npx decent-social-cli --help
+```
+
+# set up
+
+initialize your timeline with your current user if you like.
+
+this will fetch you current followers (currently max 100) and add them to `~/.decent/usernames`
+
+```sh
+decent init <username>
+
+# example
+
+decent init christian_fei
+```
+
+`~/.decent/usernames` looks like this
 
 ```
 elonmusk
 lexfridman
 mkbhd
+...
 ```
 
-Then
+Read your timeline with `less`:
 
 ```sh
-npm i -g decent-social-cli
-
-decent --help
+decent --max 100 | less
 ```
 
-Read with `less`:
-
-```sh
-decent --max 50 | less
-```
+# commands
 
 for more information, see `decent --help`
-
-# some examples
 
 ```sh
 # Initialize ~/.decent/usernames
