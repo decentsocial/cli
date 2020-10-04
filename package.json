@@ -1,6 +1,6 @@
 {
   "name": "decent-social-cli",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "main": "index.js",
   "bin": {
     "decent": "index.js"
