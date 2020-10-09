@@ -32,9 +32,9 @@ if (require.main === module) {
     .argv
 } else {
   module.exports = {
-    init: require('./commands/init'),
-    list: require('./commands/list'),
-    filter: require('./commands/filter'),
-    followers: require('./commands/followers'),
+    init: require('./commands/init').init,
+    list: require('./commands/list').list,
+    filter: require('./commands/filter').filter,
+    followers: require('./commands/followers').followers,
   }
 }
