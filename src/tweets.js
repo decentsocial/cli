@@ -21,7 +21,7 @@ async function getTweets (usernames = [], spinner) {
     .reduce((acc, curr) => acc.concat(curr), [])
 }
 async function getTweetsForUser (username = '', spinner) {
-  const url = username.startsWith('https') ? username : `https://nitter.decent.social/${username}/rss`
+  const url = username.startsWith('https:') ? username : `https://nitter.decent.social/${username}/rss`
   spinner && (spinner.text = `loading ${url}`)
 
   const req = await fetch(url, {
@@ -45,18 +45,19 @@ async function getTweetsForUser (username = '', spinner) {
 
       while (item) {
         process.env.DEBUG && console.log('-- item', JSON.stringify(item, null, 2))
+        const text = item.title || ''
         const tweet = {
           author: item.author,
           authorLink: item.author.link,
           authorAvatar: item.meta.image.url,
           rss: url,
           bio: item.meta.title,
-          text: item.title,
+          text: text,
           html: item.description,
           date: new Date(item.date),
           link: item.link.replace('/nitter.net/', '/nitter.decent.social/'),
-          retweet: item.title.startsWith('RT by'),
-          reply: item.title.startsWith('R to')
+          retweet: text.startsWith('RT by'),
+          reply: text.startsWith('R to')
         }
         tweets.push(tweet)
         item = this.read()
