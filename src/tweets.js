@@ -45,21 +45,25 @@ async function getTweetsForUser (username = '', spinner) {
 
       while (item) {
         process.env.DEBUG && console.log('-- item', JSON.stringify(item, null, 2))
-        const text = item.title || ''
-        const tweet = {
-          author: item.author,
-          authorLink: item.author.link,
-          authorAvatar: item.meta.image.url,
-          rss: url,
-          bio: item.meta.title,
-          text: text,
-          html: item.description,
-          date: new Date(item.date),
-          link: item.link.replace('/nitter.net/', '/nitter.decent.social/'),
-          retweet: text.startsWith('RT by'),
-          reply: text.startsWith('R to')
+        try {
+          const text = item.title || ''
+          const tweet = {
+            author: item.author,
+            authorLink: item.author.link,
+            authorAvatar: item.meta.image.url,
+            rss: url,
+            bio: item.meta.title,
+            text: text,
+            html: item.description,
+            date: new Date(item.date),
+            link: item.link.replace('/nitter.net/', '/nitter.decent.social/'),
+            retweet: text.startsWith('RT by'),
+            reply: text.startsWith('R to')
+          }
+          tweets.push(tweet)
+        } catch (err) {
+          console.error('failed to parse tweet', item)
         }
-        tweets.push(tweet)
         item = this.read()
       }
     })
