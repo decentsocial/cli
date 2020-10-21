@@ -1,13 +1,14 @@
 const FeedParser = require('feedparser')
 const fetch = require('node-fetch')
-const limit = require('p-limit')(10)
+const pLimit = require('p-limit')
 
 module.exports = {
   getTweets,
   getTweetsForUser
 }
 
-async function getTweets (usernames = [], spinner) {
+async function getTweets (usernames = [], spinner, concurrency = 15) {
+  const limit = pLimit(concurrency)
   const tweetsByUser = await Promise.all(usernames.map((url) => limit(() => {
     console.log('getting tweets for user', url)
     return getTweetsForUser(url, spinner)
