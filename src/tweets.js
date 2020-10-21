@@ -1,7 +1,6 @@
 const FeedParser = require('feedparser')
 const fetch = require('node-fetch')
 const limit = require('p-limit')(10)
-const retry = require('p-retry')
 
 module.exports = {
   getTweets,
@@ -9,14 +8,14 @@ module.exports = {
 }
 
 async function getTweets (usernames = [], spinner) {
-  const tweetsByUser = await Promise.all(usernames.map((url) => limit(() => retry(() => {
+  const tweetsByUser = await Promise.all(usernames.map((url) => limit(() => {
+    console.log('getting tweets for user', url)
     return getTweetsForUser(url, spinner)
       .catch(err => {
-        process.env.DEBUG && console.error(`an error occurred while fetching ${url}`, err.message)
-        process.env.DEBUG && console.error(err)
+        console.error(`an error occurred while fetching ${url}`, err.message, err)
         throw new Error(err)
       })
-  }, { attempts: 2 }))))
+  })))
   return tweetsByUser
     .reduce((acc, curr) => acc.concat(curr), [])
 }
@@ -31,14 +30,14 @@ async function getTweetsForUser (username = '', spinner) {
   const feedparser = new FeedParser()
 
   if (req.status !== 200) {
-    throw new retry.AbortError(req.statusText)
+    return []
   } else {
     req.body.pipe(feedparser)
   }
 
   return new Promise((resolve, reject) => {
     const tweets = []
-    feedparser.on('err', () => { throw new retry.AbortError('Error parsing feed') })
+    feedparser.on('err', () => { resolve([]) })
 
     feedparser.on('readable', function () {
       let item = this.read()
