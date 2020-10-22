@@ -7,10 +7,9 @@ module.exports = {
   getTweetsForUser
 }
 
-async function getTweets (usernames = [], spinner, concurrency = 15) {
+async function getTweets (usernames = [], spinner, concurrency = 20) {
   const limit = pLimit(concurrency)
   const tweetsByUser = await Promise.all(usernames.map((url) => limit(() => {
-    console.log('getting tweets for user', url)
     return getTweetsForUser(url, spinner)
       .catch(err => {
         console.error(`an error occurred while fetching ${url}`, err.message, err)
